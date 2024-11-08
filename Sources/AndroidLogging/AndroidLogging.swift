@@ -17,22 +17,22 @@ import CAndroidLogging
 import Logging
 
 extension Logger.Level {
-  var androidLogPriority: UInt32 {
+  var androidLogPriority: android_LogPriority {
     switch self {
     case .trace:
-      return ANDROID_LOG_VERBOSE.rawValue
+      return ANDROID_LOG_VERBOSE
     case .debug:
-      return ANDROID_LOG_DEBUG.rawValue
+      return ANDROID_LOG_DEBUG
     case .info:
       fallthrough
     case .notice:
-      return ANDROID_LOG_INFO.rawValue
+      return ANDROID_LOG_INFO
     case .warning:
-      return ANDROID_LOG_WARN.rawValue
+      return ANDROID_LOG_WARN
     case .error:
-      return ANDROID_LOG_ERROR.rawValue
+      return ANDROID_LOG_ERROR
     case .critical:
-      return ANDROID_LOG_FATAL.rawValue
+      return ANDROID_LOG_FATAL
     }
   }
 }
@@ -62,7 +62,7 @@ public struct AndroidLogHandler: LogHandler {
     line: UInt
   ) {
     _ = __android_log_write(
-      CInt(level.androidLogPriority),
+      CInt(level.androidLogPriority.rawValue),
       label,
       "\(prettyMetadata.map { " \($0)" } ?? "") [\(source)] \(message)"
     )
