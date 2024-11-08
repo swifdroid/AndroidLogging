@@ -64,7 +64,7 @@ public struct AndroidLogHandler: LogHandler {
     _ = __android_log_write(
       CInt(level.androidLogPriority.rawValue),
       label,
-      "\(prettyMetadata.map { " \($0)" } ?? "") [\(source)] \(message)"
+      "\(prettyMetadata.map { "\($0) " } ?? "")[\(source)] \(message)"
     )
   }
 
