@@ -75,31 +75,6 @@ public struct AndroidLogHandler: LogHandler {
     }
   }
 
-  static func prepareMetadata(
-    base: Logger.Metadata,
-    provider: Logger.MetadataProvider?,
-    explicit: Logger.Metadata?
-  ) -> Logger.Metadata? {
-    var metadata = base
-
-    let provided = provider?.get() ?? [:]
-
-    guard !provided.isEmpty || !((explicit ?? [:]).isEmpty) else {
-      // all per-log-statement values are empty
-      return nil
-    }
-
-    if !provided.isEmpty {
-      metadata.merge(provided, uniquingKeysWith: { _, provided in provided })
-    }
-
-    if let explicit = explicit, !explicit.isEmpty {
-      metadata.merge(explicit, uniquingKeysWith: { _, explicit in explicit })
-    }
-
-    return metadata
-  }
-
   private func prettify(_ metadata: Logger.Metadata) -> String? {
     if metadata.isEmpty {
       return nil
