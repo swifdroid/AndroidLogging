@@ -41,15 +41,36 @@ public struct AndroidLogHandler: LogHandler {
   public var logLevel: Logger.Level = .info
   public var metadataProvider: Logger.MetadataProvider?
 
-  private let label: String
-
-  public init(label: String) {
-    self.init(label: label, metadataProvider: nil)
+  public enum TagSource {
+    case label
+    case source
   }
 
-  public init(label: String, metadataProvider: Logger.MetadataProvider?) {
+  private let label: String
+  private let tagSource: TagSource
+
+  public static func taggedByLabel(
+    label: String,
+    metadataProvider: Logger.MetadataProvider?
+  ) -> AndroidLogHandler {
+    AndroidLogHandler(label: label, metadataProvider: metadataProvider, tagSource: .label)
+  }
+
+  public static func taggedBySource(
+    label: String,
+    metadataProvider: Logger.MetadataProvider?
+  ) -> AndroidLogHandler {
+    AndroidLogHandler(label: label, metadataProvider: metadataProvider, tagSource: .source)
+  }
+
+  public init(
+    label: String,
+    metadataProvider: Logger.MetadataProvider? = nil,
+    tagSource: TagSource = .label
+  ) {
     self.label = label
     self.metadataProvider = metadataProvider
+    self.tagSource = tagSource
   }
 
   public func log(
@@ -61,10 +82,18 @@ public struct AndroidLogHandler: LogHandler {
     function: String,
     line: UInt
   ) {
+    var text = "\(prettyMetadata.map { "\($0) " } ?? "")"
+
+    if tagSource == .label {
+      text += "[\(source)]"
+    }
+
+    text += " \(message)"
+
     _ = __android_log_write(
       CInt(level.androidLogPriority.rawValue),
-      label,
-      "\(prettyMetadata.map { "\($0) " } ?? "")[\(source)] \(message)"
+      tagSource == .label ? label : source,
+      text
     )
   }
 
