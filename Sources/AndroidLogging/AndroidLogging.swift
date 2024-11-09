@@ -50,23 +50,43 @@ public struct AndroidLogHandler: LogHandler {
   private let tagSource: TagSource
 
   public static func taggedByLabel(
+    label: String
+  ) -> AndroidLogHandler {
+    AndroidLogHandler(
+      label: label,
+      tagSource: .label,
+      metadataProvider: LoggingSystem.metadataProvider
+    )
+  }
+
+  public static func taggedByLabel(
     label: String,
     metadataProvider: Logger.MetadataProvider?
   ) -> AndroidLogHandler {
-    AndroidLogHandler(label: label, metadataProvider: metadataProvider, tagSource: .label)
+    AndroidLogHandler(label: label, tagSource: .label, metadataProvider: metadataProvider)
+  }
+
+  public static func taggedBySource(
+    label: String
+  ) -> AndroidLogHandler {
+    AndroidLogHandler(
+      label: label,
+      tagSource: .source,
+      metadataProvider: LoggingSystem.metadataProvider
+    )
   }
 
   public static func taggedBySource(
     label: String,
     metadataProvider: Logger.MetadataProvider?
   ) -> AndroidLogHandler {
-    AndroidLogHandler(label: label, metadataProvider: metadataProvider, tagSource: .source)
+    AndroidLogHandler(label: label, tagSource: .source, metadataProvider: metadataProvider)
   }
 
-  public init(
+  init(
     label: String,
-    metadataProvider: Logger.MetadataProvider? = nil,
-    tagSource: TagSource = .label
+    tagSource: TagSource = .label,
+    metadataProvider: Logger.MetadataProvider? = nil
   ) {
     self.label = label
     self.metadataProvider = metadataProvider
