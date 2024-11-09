@@ -105,10 +105,10 @@ public struct AndroidLogHandler: LogHandler {
     var text = "\(prettyMetadata.map { "\($0) " } ?? "")"
 
     if tagSource == .label {
-      text += "[\(source)]"
+      text += "[\(source)] "
     }
 
-    text += " \(message)"
+    text += "\(message)"
 
     _ = __android_log_write(
       CInt(level.androidLogPriority.rawValue),
