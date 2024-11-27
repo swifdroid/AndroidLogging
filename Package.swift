@@ -19,7 +19,7 @@ let package = Package(
   dependencies: [
     .package(
       url: "https://github.com/apple/swift-log",
-      branch: "main"
+      from: "1.6.2"
     ),
   ],
   targets: [
