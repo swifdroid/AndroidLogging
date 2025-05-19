@@ -111,6 +111,8 @@ public struct AndroidLogHandler: LogHandler {
 
     if tagSource == .label {
       text += "[\(source)] "
+    } else {
+      text += "[\(label)] "
     }
 
     text += "\(message)"
