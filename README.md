@@ -33,7 +33,7 @@ let package = Package(
 
 ## Usage
 
-Do it once after your app/lib initialization
+Do it once
 ```swift
 #if canImport(Android)
 LoggingSystem.bootstrap(AndroidLogHandler.taggedBySource)
@@ -42,6 +42,6 @@ LoggingSystem.bootstrap(AndroidLogHandler.taggedBySource)
 
 Then as usual
 ```swift
-let logger = Logger(label: "🐦‍🔥 SWIFT") // label doesn't matter with .taggedBySource
+let logger = Logger(label: "🐦‍🔥 SWIFT")
 logger.info("🚀 Hello World!")
 ```
