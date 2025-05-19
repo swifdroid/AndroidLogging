@@ -109,9 +109,9 @@ public struct AndroidLogHandler: LogHandler {
   ) {
     var text = "\(prettyMetadata.map { "\($0) " } ?? "")"
 
-    if tagSource == .label {
+    if tagSource == .label, source.count > 0 {
       text += "[\(source)] "
-    } else {
+    } else if tagSource == .source, label.count > 0 {
       text += "[\(label)] "
     }
 
